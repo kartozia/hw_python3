@@ -8,9 +8,20 @@ import requests
 prof_page = requests.get('https://www.hse.ru/org/persons/?ltr=И;udept=22726')  
 
 #etree
-root = etree.HTML(prof_page.content)
+root = etree.HTML(prof_page.content.decode('utf-8'))
 persons = root[1][1][3][2][1][0][2][1]
-print(persons.attrib)
+for p in persons:
+    if 'post person' in p.attrib['class']:
+        head = p[0]
+ #       main_phone = head[0][0].text
+ #       extra = head[0][2].text # решить как быть если там ничего нет
+ #       email = head[0][4].attrib # не работает
+ #       full_name = head[1][0][0][0].attrib #вытащить имя из title
+        post = head[1][0][1][0].text# ошибка через какой-то момент
+#        where = head[1][0][1][0][0].text # ошибка через какой-то момент
+#        where1 = head[1][0][1][0][1].text # ошибка через какой-то момент
+ #      science = head[1][0][2][0].text 
+        print(post)
 
         
         
