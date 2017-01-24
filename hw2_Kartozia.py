@@ -6,14 +6,7 @@ import requests
 
 
 prof_page = requests.get('https://www.hse.ru/org/persons/?ltr=И;udept=22726')  
-
-#etree
-
-
-
-
-        
-       
+     
 class Professor:
     def __init__ (self, page):
         self.etree = self.teachers_with_etree(page)
