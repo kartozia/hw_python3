@@ -58,7 +58,7 @@ class Professor:
 #                name = re.findall('<div class="g-pic person-avatar-small2" title="(.+?)" alt=', full_name)
                 #fname = name.group(1)    
                 prof_arr.append(str(full_name)+ '\n Phone:'+ str(main_phone) + '\n E-mail:' + final_email + '\n' + str(post) + ' ' + str(where))
-                return prof_arr[:6]
+                return prof_arr
 
     def teachers_with_xpath(self, page):
         prof_arr = []
