@@ -36,10 +36,15 @@ class Professor:
                 head = p[0]
                 post_content = head[1][0]
                 extra_small = head[0]
-                if len(extra_small) > 2:
+                if len(extra_small) > 4:
+                    main_phone = extra_small[0].text
+                    extra = extra_small[2].text
+                    email = extra_small[4].attrib
+                    final_email = self.get_email(email)
+                else:
                     main_phone = extra_small[0].text
                     email = extra_small[2].attrib
-                    final_email = self.get_email(email)
+                    final_email = self.get_email(email)                    
                 if len(post_content) > 2:
                     full_name = post_content[0][0].attrib
                     post = post_content[1][0].text
@@ -53,7 +58,7 @@ class Professor:
 #                name = re.findall('<div class="g-pic person-avatar-small2" title="(.+?)" alt=', full_name)
                 #fname = name.group(1)    
                 prof_arr.append(str(full_name)+ '\n Phone:'+ str(main_phone) + '\n E-mail:' + final_email + '\n' + str(post) + ' ' + str(where))
-                return prof_arr[:1]
+                return prof_arr[:6]
 
     def teachers_with_xpath(self, page):
         prof_arr = []
