@@ -26,8 +26,11 @@ class MyQueue(Stack):
          second = Stack()
 
      def make_queue(self, item):
-          
+          first.push(item)
+          for i in first.items:
+               second.push(i)
+          self.que = second.items
+          return self.que
 
- берем массив из одного стека и по очереди добавляем элементы в другой
 
     
