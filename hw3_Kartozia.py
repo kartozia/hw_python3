@@ -11,26 +11,32 @@ class Stack:
      def push(self, item):
           self.items.append(item)
 
-     def pop(self):  # удалить элемент из стека и вернуть его значение
-          element = self.items.pop()
-          return self.items[element]
+     def pop(self): 
+          return self.items.pop()
 
      def peek(self):
          element = self.items[len(self.items)-1]
          return self.items[element]
 
 class MyQueue(Stack):
-    def __init__(self):
-         self.que = []
-         first = Stack()
-         second = Stack()
+     def __init__(self):
+         self.first = Stack()
+         self.second = Stack()
+         
+     def make_stack(self, item):
+          self.first.push(item)
 
-     def make_queue(self, item):
-          first.push(item)
-          for i in first.items:
-               second.push(i)
-          self.que = second.items
-          return self.que
-
-
-    
+     def reverse_stack(self):
+          if not self.first.isEmpty():
+               while len(self.first.items) > 0:
+                    self.second.push(self.first.pop())
+               queue = self.second.pop()
+               while len(self.second.items)> 0:
+                    self.first.push(self.second.pop())
+               return queue
+          
+q = MyQueue()
+for i in range(10):
+     q.make_stack(i)
+for i in range(10):
+     print (q.reverse_stack())
