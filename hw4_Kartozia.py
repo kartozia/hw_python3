@@ -76,12 +76,10 @@ class LinkedList:
 
     def value_n_from_end(self, n):
         current = self.head
-        found = False
-        index = self.size()
-        need = index - n
+        whole = self.size()
+        index = whole - n
         while current and found is False:
-            if current.position == need:
-                found = True
+            if current.position == index:
                 return current
             else:
                 current = current.next
