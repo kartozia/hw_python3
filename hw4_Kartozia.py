@@ -1,7 +1,8 @@
 class Node:
-    def __init__(self, data, next=None):
+    def __init__(self, data, next=None, position = 0):
         self.data = data
         self.next = next
+        self.position = position
 
 
 class LinkedList:
@@ -12,6 +13,15 @@ class LinkedList:
         if self.head:
             return False
         return True
+
+    def value_at(self, item): #вернуть значение узла в позиции index
+        current = self.head
+        while current != None:
+            if current.data == item:
+                return current.position
+            else:
+                current = current.next
+        print ("item not present in list")
 
     def printList(self):
         node = self.head
@@ -32,6 +42,7 @@ class LinkedList:
             node = self.head
             while node.next:
                 node = node.next
+                node.position += 1               
             node.next = new_node
             
     def insert(self, data):
@@ -63,12 +74,21 @@ class LinkedList:
             current = current.next
         return count
 
-    def value_n_from_end(self, n): #возвращает n-ный с конца узел связного списка
-        if self.head is None:
-            return None
-        
+    def value_n_from_end(self, n):
+        current = self.head
+        found = False
+        index = self.size()
+        need = index - n
+        while current and found is False:
+            if current.position == need:
+                found = True
+                return current
+            else:
+                current = current.next
+        if current is None:
+            raise ValueError("Data not in list")
 
-
+    
 n3 = Node(3)
 n2 = Node(2, next=n3)
 n1 = Node(1, next=n2)
