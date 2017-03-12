@@ -3,21 +3,24 @@ import json
 mystem = open('python_mystem.json', 'r', encoding='utf-8')
 text = mystem.readlines()
 words = []
+dictionary = {}
 
 class Word:
     def __init__(self, **kwargs):
         vars(self).update(kwargs)
         
 def pos_search(*args): #находит часть речи
-    pos = args[0]
+    pos = args[0][0]
     for p in pos:
-        p = p.split('=')
-    return p[0]
+        if '=' in p:
+            p = p.split('=')
+            return p[0]
+        else:
+            return p
 
 for line in text:
     jline = json.loads(line)
     if 'analysis' in jline:
-        dictionary = dict()
         dictionary['word'] = jline['text']
         dictionary['num'] = len(jline['analysis'])
         if dictionary['num'] != 0:
@@ -25,11 +28,11 @@ for line in text:
             grammar = jline['analysis'][0]['gr']
             dictionary['freq_pos'] = pos_search(grammar.split(','))
         else:
-            dictionary['freq_lemma'] = None
-            dictionary['freq_pos'] = None
+            dictionary['freq_lemma'] = 'Unknown'
+            dictionary['freq_pos'] = 'Unknown'
         word = Word(**dictionary)
         words.append(word)
                             
 #результат
 for w in words:
-    print(word.word, word.num, word.freq_lemma, word.freq_pos)
+    print(w.word, w.num, w.freq_lemma, w.freq_pos)
