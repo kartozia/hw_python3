@@ -52,4 +52,6 @@ class SnippetTest(unittest.TestCase):
 test = SnippetTest()
 print(test.test_len('контрольная', ctrl, 5))
         
-#print(kwiq('контрольная', ctrl))
+arr = kwiq('контрольная', ctrl)
+for a in arr:
+    print(a)
