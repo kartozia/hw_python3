@@ -31,12 +31,25 @@ def kwiq(word, text, num=3):
         end = i + num_end
         left = arr[start:start+num]
         right = arr[end-num:end]
-        snippets.append(to_table(left, key_word, right))
-    for s in snippets:
-        print(s)
-        
-##    return snippets
+        string = to_table(left, key_word, right)
+        snippets.append(string)
+    return snippets
 
 file = open('contrl.txt', 'r', encoding='utf-8')
-test = file.read()
-print(kwiq('контрольная', test, 3))
+ctrl = file.read()
+
+class SnippetTest(unittest.TestCase):
+    """ Класс тестирует функцию kwiq
+    Запускаем функцию внутри класса и проверяем, правильной ли длины выдаётся нам сниппет
+    при помощи функции test_len.
+    Например, если мы задаём num=3 (по три слова по обе стороны от ключевого слова), то
+    длина сниппета будет 3+3+1, где один это ключевое слово. Общий вид: num*2+1
+    """
+    def test_len(self, word, text, num=3):
+        for i in kwiq(word,text, num):
+            self.assertEqual(len(i.split()), num*2+1)
+
+test = SnippetTest()
+print(test.test_len('контрольная', ctrl, 5))
+        
+#print(kwiq('контрольная', ctrl))
