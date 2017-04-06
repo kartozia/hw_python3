@@ -46,37 +46,39 @@ def attribute_list(name): #создаёт список аттрибутов
 def main_counter(arr): # подсчёт кол-ва идиом, где встречается основное слово
     main_occurences = Counter(arr)     
     return main_occurences #вернет все идиомы
-    #return main_occurences.most_common([50]) #возвращает 50 самых частотных
-# не понятно, почему most_common не работает:    if n >= size:
-#TypeError: unorderable types: list() >= int()
+    #return main_occurences.most_common(50) #возвращает 50 самых частотных
 
 def attribute_counter(arr): # подсчёт кол-ва идиом, где встречается основное слово
     att_occurences = Counter(arr)     
-    return att_occurences #вернет все идиомы       
-    #return att_occurences.most_common([50]) #возвращает 50 самых частотных
+    #return att_occurences #вернет все идиомы       
+    return att_occurences.most_common(50) #возвращает 50 самых частотных
 
 # задание №3a
 def generate_pairs(main, att): #генерирует все возможные пары, файл который я создавала,
                               #чтобы посмотреть,что выходит, не открывается из-за insufficent memory
                             # itertools.islice(pairs,10), но часть можно увидеть через islice
     pairs = itertools.product(att, main)
-    for i in pairs:
-        i = ' '.join(i)
-    return pairs
+    all_pairs = [' '.join(i) for i in pairs]
+    return all_pairs
 
 def new_pairs(main, att, text): 
     existing_pairs = list_comprehension(text)
     all_pairs = generate_pairs(main, att)
-    new = list(itertools.filterfalse(existing_pairs, all_pairs))
+    new = itertools.filterfalse(lambda x: x in existing_pairs, all_pairs)
     file = create_file('all_pairs')
     for n in new:
         file.write(n+'\n')
     file.close()
     return '3a complete'
 
-print(new_pairs(main_list('idioms_high'), attribute_list('idioms_high'), 'idioms_high'))
+#print(new_pairs(main_list('idioms_high'), attribute_list('idioms_high'), 'idioms_high'))
 
-
+def good_pairs(ideal, draft):
+    text1 = read_file(ideal)
+    text2 = read_file(draft)
+    #здесь применяем islice чтобы обрезать окончания, берем каунтер и слова из каунтера прогоянем
+    
+    
     
                              
 
