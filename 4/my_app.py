@@ -1,5 +1,3 @@
-import datetime
-
 from flask import Flask
 from flask import url_for, render_template, request, redirect
 
@@ -9,20 +7,22 @@ app = Flask(__name__)
 @app.route('/')
 def index():
     urls = {'Опрос': url_for('index'),
-            'Результаты опроса': url_for('result')
-            }
-    return render_template('index.html', urls=urls)
+            'Результаты опроса': url_for('result'),}
+    if request.args:
+        name = request.args['name']
+        animal = request.args['animal']
+        return render_template('results.html', urls=urls, name=name, animal=animal)
+    return render_template('index.html')
 
 
 @app.route('/results')
 def result():
-    dogs = 0
-    cats = 0
+    votes = {}
     if request.args['animal'] == 'Собаки':
-        dogs += 1
+        votes['Собаки'] += 1
     if request.args['animal'] == 'Кошки':
-        animal = request.args['animal']
-    return render_template('results.html', name=request.args['name'], dogs=dogs, cats=cats)
+        votes['Кошки'] += 1
+    return render_template('results.html', name=request.args['name'], votes=votes)
 
 if __name__ == '__main__':
     app.run(debug=True)

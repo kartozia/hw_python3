@@ -9,8 +9,9 @@
 <h3>Спасибо за ответ, {{ name }}!</h3>
 <h4>Результаты опроса:</h4>
 <p>
-    Собаки {{ dogs }}
-    Кошки  {{ cats }}
+{% for v in votes %}
+  <li>{{ v }} {{ votes[v] }}</li>
+{% endfor %}
 </p>
 </body>
 </body>
