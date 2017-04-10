@@ -11,12 +11,12 @@
     	<li><a href="{{ url }}">{{ name }}</a></li>
     {% endfor %}
 	</ul>
-	<form method ="GET">
+	<form action="/results">
     	<label>Как тебя зовут? <input type="text" name="name" value=""> </label><br />
-    	<p>Собаки или кошки? <br />
-    	<input type="radio" name="animal" value="dog">Собаки <br />
-    	<input type="radio" name="animal" value="cat">Кошки <br />
-    	</p>
+    	<p> Собаки или кошки?
+ 		 {% for e in data.var %}
+     	<input type="radio" name="var" value="{{ e }}"> {{ e }}<br>
+ 		 {% endfor %}
     	<input type="submit" value="Отправить">
 	</form>
 </body>

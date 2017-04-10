@@ -6,6 +6,7 @@ app = Flask(__name__)
 ask = {
    'var'   : ['Собаки', 'Кошки']
 }
+name = 'result.txt'
 
 @app.route('/')
 def index():
@@ -13,23 +14,24 @@ def index():
             'Результаты опроса': url_for('result'),}
     if request.args:
         name = request.args['name']
-        animal = request.args['animal']
-        return render_template('results.html', name=name, animal=animal)
+        vote = request.args.get('var')
+        res = open(name, 'a', encoding='utf-8')
+        res.write(vote + '\n' )
+        res.close() 
+        return render_template('results.html', name=name)
     return render_template('index.html', urls=urls, data=ask)
 
 
 @app.route('/results')
 def result():
     votes = {}
-    votes['Собаки'] = 0
-    votes['Кошки'] = 0
-    if request.args['animal'] == 'dog':
-        votes['Собаки'] += 1
-        return render_template('results.html', name=request.args['name'], votes=votes)
-    if request.args['animal'] == 'cat':
-        votes['Кошки'] += 1
-        return render_template('results.html', name=request.args['name'], votes=votes)
-    
+    file  = open(name, 'r')
+    for a in ask['var']:
+        votes[a] = 0
+    for line in file:
+        vote = line.rstrip("\n")
+        votes[vote] += 1 
+    return render_template('results.html', data=ask, votes=votes)   
 
 if __name__ == '__main__':
     app.run(debug=True)
