@@ -6,11 +6,17 @@
     <title>Опрос</title>
 </head>
 <body>
+	<ul>
+    {% for name, url in urls.items() %}
+    	<li><a href="{{ url }}">{{ name }}</a></li>
+    {% endfor %}
+	</ul>
 	<form method ="GET">
     	<label>Как тебя зовут? <input type="text" name="name" value=""> </label><br />
-    	<label> Собаки или кошки? <br />
-    	<input type="radio" name="animal" value="Собаки">Собаки</label> <br />
-    	<input type="radio" name="animal" value="Кошки">Кошки</label> <br />
+    	<p>Собаки или кошки? <br />
+    	<input type="radio" name="animal" value="dog">Собаки <br />
+    	<input type="radio" name="animal" value="cat">Кошки <br />
+    	</p>
     	<input type="submit" value="Отправить">
 	</form>
 </body>
