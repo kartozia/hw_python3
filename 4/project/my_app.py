@@ -57,13 +57,13 @@ def pos_text():
     return render_template('mystem.html')
 
 
-##@app.route('/vk', methods=['get', 'post'])
-##def vk():
-##    if request.form:
-##        group_id = request.form['group_id']
-##        info = get_info(group_id)
-##        return render_template('api.html', **locals())
-##    return render_template('api.html')
+@app.route('/vk', methods=['get', 'post'])
+def vk():
+    if request.form:
+        group_id = request.form['group_id']
+        info = get_info(group_id)
+        return render_template('api.html', **locals())
+    return render_template('api.html')
 
 
 @app.route('/', methods=['get'])
