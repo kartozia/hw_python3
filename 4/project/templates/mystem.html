@@ -39,16 +39,23 @@
 		<br>
 		<input type="submit" value="Разобрать">
 	</form>
-
-	{% if data %}
+	<div id="chart_div"></div>
+	{% if data %}		
 		<h3>Глаголы:</h3>
-		<p class="info"> {{ data | safe}} <br /></p>
+		<p class="info"> 
+		<ul> {% for element, num in data.items() %} 
+			<li>{{ element }}, {{ num }} <li>
+			{% endfor %} <br />
+		</p>
 	{% endif %}
 	{% if lemma %}
 		<h3>Частотные леммы:</h3>
-		<p class="info"> {{ lemma}} <br /></p>
+		<p class="info"> {% for element, num in lemma.items() %} 
+			<li>{{ element }}, {{num}} <li>
+			{% endfor %} <br /> <br /></p>
 	{% endif %}
 		
 
+</ul>
 </body>
 </html>

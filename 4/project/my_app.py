@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import url_for, render_template, request, redirect
 from pymystem3 import Mystem
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, OrderedDict
 import json
 import requests
 
@@ -27,7 +27,9 @@ def verb_analisys(text):
             if pos == 'V':
                 lex = i['analysis'][0]['lex']
                 lemma.append(lex)
-                lem_freq = Counter(lemma)
+                lem_freq = OrderedDict(sorted(Counter(lemma).items(), key=lambda t: t[1], reverse=True))
+##                for i in freq:
+##                    lem_freq.append(i)
                 verb[pos] += 1
                 for i in gram:
                     if i == 'несов':
@@ -61,10 +63,14 @@ def get_info(group1, group2):
     for i in cl1['response']:
         if i['is_closed'] == 1:
             warn = 'Одна из групп является закрытой, поэтому мы не можем гарантировать точность полученных данных'
+        else:
+            warn = ''
     cl2 = vk_api('groups.getById', group_id=group2, fields ='members_count')
     for i in cl2['response']:
         if i['is_closed'] == 1:
             warn = 'Одна из групп является закрытой, поэтому мы не можем гарантировать точность полученных данных'
+        else:
+            warn = ''
 
     #group2: кол-во подписчиков, и проверяем через groups.isMember являются ли участники
     #первой группы участниками второй
@@ -77,7 +83,7 @@ def get_info(group1, group2):
             if i['member'] == 1:
                 common +=1
     
-    return members_count1, members_count2, common
+    return members_count1, members_count2, common, warn
 
 
 @app.route('/pos', methods=['get', 'post'])
@@ -94,7 +100,8 @@ def vk():
         group1 = request.form['group1']
         group2 = request.form['group2']
         members_count1, members_count2, common, warn = get_info(group1, group2)
-        return render_template('api.html', n1 = group1, n2 = group2, gr1=members_count1, gr2=members_count2, com = common)
+        return render_template('api.html', **locals())
+ #      return render_template('api.html', n1 = group1, n2 = group2, gr1=members_count1, gr2=members_count2, com = common)
     #можно ли сделать строку выше проще? Я пробовала с *locals(), но оно не работало :(
     return render_template('api.html')
 
