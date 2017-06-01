@@ -15,10 +15,12 @@ def verb_analisys(text):
     lemma = []
     ana = m.analyze(text)
     verb = defaultdict(int)
+    chart = defaultdict(int)
     words = len(text.split())
     for i in ana:     
         if i['text'].strip() and 'analysis' in i and i['analysis']:
             pos = i['analysis'][0]['gr'].split('=')[0].split(',')[0]
+            chart[pos] += 1
             gram1 = i['analysis'][0]['gr'].split('=')[0].split(',')
             gram2 = i['analysis'][0]['gr'].split('=')[1].split(',')
             gram = gram1 + gram2
@@ -37,7 +39,7 @@ def verb_analisys(text):
                     elif i == 'нп':
                         verb['intr'] +=1 
                 verb['part'] = round(((verb[pos]/words)*100),2)
-    return verb, lem_freq
+    return verb, lem_freq, chart
                
 
 def vk_api(method, **kwargs):
@@ -82,9 +84,9 @@ def get_info(group1, group2):
 def pos_text():
     if request.form:
         text = request.form['text']
-        verb, lem_freq = verb_analisys(text)
-        return render_template('mystem.html', input=text, data=verb, lemma=lem_freq)
-    return render_template('mystem.html', data={})
+        verb, lem_freq, chart = verb_analisys(text)
+        return render_template('mystem.html', input=text, data=verb, lemma=lem_freq, gchart = chart)
+    return render_template('mystem.html', data={}, gchart = {})
 
 @app.route('/vk', methods=['get', 'post'])
 def vk():
