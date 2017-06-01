@@ -17,10 +17,15 @@
 		<input type="submit" value="Разобрать">
 	</form>
 
-	{% if text %}
-		<h1>Разбор:</h1>
-		<p class="result"> {{ text | safe}}</p>
+	{% if data %}
+		<h3>Глаголы:</h3>
+		<p class="info"> {{ data | safe}} <br /></p>
 	{% endif %}
+	{% if lemma %}
+		<h3>Частотные леммы:</h3>
+		<p class="info"> {{ lemma}} <br /></p>
+	{% endif %}
+		
 
 </body>
 </html>
