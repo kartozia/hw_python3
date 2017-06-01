@@ -54,6 +54,15 @@ def get_info(group1, group2):
     gr1 = vk_api('groups.getMembers', group_id=group1)
     members_count1 = gr1['response']['count']
     users += gr1['response']["users"]
+    #закрыты ли группы?
+    cl1 = vk_api('groups.getById', group_id=group1, fields ='members_count')
+    for i in cl1['response']:
+        if i['is_closed'] == 1:
+            warn = 'Одна из групп является закрытой, поэтому мы не можем гарантировать точность полученных данных'
+    cl2 = vk_api('groups.getById', group_id=group2, fields ='members_count')
+    for i in cl2['response']:
+        if i['is_closed'] == 1:
+            warn = 'Одна из групп является закрытой, поэтому мы не можем гарантировать точность полученных данных'
 
     #group2: кол-во подписчиков, и проверяем через groups.isMember являются ли участники
     #первой группы участниками второй
@@ -82,8 +91,9 @@ def vk():
     if request.form:
         group1 = request.form['group1']
         group2 = request.form['group2']
-        members_count1, members_count2, common = get_info(group1, group2)
+        members_count1, members_count2, common, warn = get_info(group1, group2)
         return render_template('api.html', n1 = group1, n2 = group2, gr1=members_count1, gr2=members_count2, com = common)
+    #можно ли сделать строку выше проще? Я пробовала с *locals(), но оно не работало :(
     return render_template('api.html')
 
 
