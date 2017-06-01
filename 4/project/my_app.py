@@ -38,10 +38,7 @@ def verb_analisys(text):
                         verb['intr'] +=1 
                 verb['part'] = round(((verb[pos]/words)*100),2)
     return verb, lem_freq
-
-
-                
-                
+               
 
 def vk_api(method, **kwargs):
     api_request = 'https://api.vk.com/method/'+method + '?'
@@ -49,25 +46,27 @@ def vk_api(method, **kwargs):
     return json.loads(requests.get(api_request).text)
 
 
-def get_info(group):
+def get_info(group1, group2):
     users = []
+    common = 0
 
-    result = vk_api('groups.getMembers', group_id=group)
-    members_count = result['response']['count']
-    users += result['response']["users"]
+    #group1: кол-во подписчиков, ID всех пользователей
+    gr1 = vk_api('groups.getMembers', group_id=group1)
+    members_count1 = gr1['response']['count']
+    users += gr1['response']["users"]
 
-    while len(users) < members_count:
-        result = vk_api('groups.getMembers', group_id=group, offset=len(users))
-        users += result['response']["users"]
+    #group2: кол-во подписчиков, и проверяем через groups.isMember являются ли участники
+    #первой группы участниками второй
+    gr2 = vk_api('groups.getMembers', group_id=group2)
+    members_count2 = gr2['response']['count']
 
-    cities = []
     for start in range(0, len(users) + 1, 100):  # будем доставать информацию о 100 юзерах за один запрос
-        user_info = vk_api('users.get', user_ids=','.join(str(i) for i in users[start:start + 100]), fields='city',
-                           v='5.63')
-        cities += [(c["city"]['id'], c["city"]['title']) for c in user_info['response']
-                   if 'city' in c]  # эта проверка нужна, чтобы отфильтровать пользователей, удаливших страницу
-    city_dict = Counter([i[1] for i in cities]).most_common()
-    return city_dict
+        user_info = vk_api('groups.isMember', group_id=group2, user_ids=','.join(str(i) for i in users[start:start + 100]))
+        for i in user_info['response']:
+            if i['member'] == 1:
+                common +=1
+    
+    return members_count1, members_count2, common
 
 
 @app.route('/pos', methods=['get', 'post'])
@@ -77,14 +76,14 @@ def pos_text():
         verb, lem_freq = verb_analisys(text)
         return render_template('mystem.html', input=text, data=verb, lemma=lem_freq)
     return render_template('mystem.html', data={})
+
 @app.route('/vk', methods=['get', 'post'])
-
-
 def vk():
     if request.form:
-        group_id = request.form['group_id']
-        info = get_info(group_id)
-        return render_template('api.html', **locals())
+        group1 = request.form['group1']
+        group2 = request.form['group2']
+        members_count1, members_count2, common = get_info(group1, group2)
+        return render_template('api.html', n1 = group1, n2 = group2, gr1=members_count1, gr2=members_count2, com = common)
     return render_template('api.html')
 
 
