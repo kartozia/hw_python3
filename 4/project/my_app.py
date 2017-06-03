@@ -92,8 +92,10 @@ def exact_search(word):
     corpus = file.readlines()
     if len(word) > 0:
         for line in corpus:
-            if word in line:
-                sentence.append(line)
+            sent = line.split()
+            for s in sent:
+                if word == s.strip('!?:;.,'):
+                    sentence.append(line)
         if len(sentence) < 1:
             sentence.append('По вашему запросу ничего не найдено')
     else:
