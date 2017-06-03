@@ -39,8 +39,9 @@
 		<br>
 		<input type="submit" value="Разобрать">
 	</form>
-	<div id="chart_div"></div>
-	{% if data %}		
+	
+	{% if data %}	
+	<div id="chart_div"></div>	
 		<h3>Глаголы:</h3>
 		<p class="info"> 
 		<ul> {% for element, num in data.items() %} 

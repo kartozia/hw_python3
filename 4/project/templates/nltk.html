@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Корпус Высоцкого</title>
+	<style>
+		.pos {vertical-align: sub; color: pink; font-size: 70%;}
+		.result {font-size: 24px;}
+	</style>
+</head>
+	<body>
+		<a href="/">На главную</a>
+			<form method='post'>
+				<h3>Корпус песен В.С. Высоцкого:</h3>
+				<h4>Если вы не знакомы с творчеством исполнителя, то его можно послушать на <a href="https://music.yandex.by/artist/118708/tracks">Яндекс.Музыке</a></h4>
+				<p>Поиск по всем формам слова:</p>
+				<input type="text" placeholder="спасите" name="all">
+				<br>
+				<input type="submit" value="Узнать">
+				
+				<p>Поиск по точной форме:</p>
+				<input type="text" placeholder="наши" name="exact">
+				<br>
+				<input type="submit" value="Узнать">
+				
+				<p>Поиск коллокаций:</p>
+				<input type="text" placeholder="души" name="collocation">
+				<br>
+				<input type="submit" value="Узнать">	
+			</form>
+			{% if af %}	
+			<h3>Результат поиска:</h3>
+			<p class="info"> 
+			<ul> {% for element in af %} 
+				<li>{{ element }}<li>
+				{% endfor %} <br />
+			</ul>
+			</p>
+			{% endif %}
+			
+			{% if ex %}	
+			<h3>Результат поиска:</h3>
+			<p class="info"> 
+			<ul> {% for element in ex %} 
+				<li>{{ element }}<li>
+				{% endfor %} <br />
+			</ul>
+			</p>
+			{% endif %}
+			
+			{% if clctn %}	
+			<h3>Результат поиска:</h3>
+			<p class="info"> 
+			<ul> {% for element in clctn %} 
+				<li>{{ element }}<li>
+				{% endfor %} <br />
+			</ul>
+			</p>
+			{% endif %}
+</body>
+</html>

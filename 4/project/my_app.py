@@ -4,6 +4,7 @@ from pymystem3 import Mystem
 from collections import Counter, defaultdict, OrderedDict
 import json
 import requests
+from nltk.stem.snowball import SnowballStemmer
 
 
 m = Mystem()
@@ -79,12 +80,61 @@ def get_info(group1, group2):
 
     for start in range(0, len(users) + 1, 100):  # будем доставать информацию о 100 юзерах за один запрос
         user_info = vk_api('groups.isMember', group_id=group2, user_ids=','.join(str(i) for i in users[start:start + 100]))
-        for i in user_info['response']:
-            if i['member'] == 1:
+        for i in user_info:
+            if i['response']['member'] == 1:
                 common +=1
     
     return members_count1, members_count2, common, warn
 
+def exact_search(word):
+    sentence = []
+    file = open('corpus.txt', 'r', encoding="utf-8")
+    corpus = file.readlines()
+    if len(word) > 0:
+        for line in corpus:
+            if word in line:
+                sentence.append(line)
+        if len(sentence) < 1:
+            sentence.append('По вашему запросу ничего не найдено')
+    else:
+        pass
+    file.close()
+    return sentence
+
+def search(word):
+    sentence = []
+    stemmer = SnowballStemmer("russian")
+    file = open('corpus.txt', 'r', encoding="utf-8")
+    corpus = file.readlines()
+    if len(word) > 0:
+        word_stem = stemmer.stem(word)
+        for line in corpus:
+            if word_stem in line:
+                sentence.append(line)
+        if len(sentence) < 1:
+            sentence.append('По вашему запросу ничего не найдено')
+    else:
+        pass
+    file.close()
+    return sentence
+
+def collocation_search(word):
+    bigram = []
+    stemmer = SnowballStemmer("russian")
+    file = open('collocations.txt', 'r', encoding="utf-8")
+    corpus = file.readlines()
+    if len(word) > 0:
+        word_stem = stemmer.stem(word)
+        for line in corpus:
+            if word_stem in line:
+                bigram.append(line)
+        if len(bigram) < 1:
+            bigram.append('По вашему запросу ничего не найдено')
+    else:
+        pass
+    file.close()
+    return bigram
+    
 
 @app.route('/pos', methods=['get', 'post'])
 def pos_text():
@@ -104,6 +154,19 @@ def vk():
  #      return render_template('api.html', n1 = group1, n2 = group2, gr1=members_count1, gr2=members_count2, com = common)
     #можно ли сделать строку выше проще? Я пробовала с *locals(), но оно не работало :(
     return render_template('api.html')
+
+@app.route('/nltk', methods=['get', 'post'])
+def corpus():
+    if request.form:
+        all_forms = request.form['all']
+        exact = request.form['exact']
+        collocation = request.form['collocation']
+        af = search(all_forms)
+        ex = exact_search(exact)
+        clctn = collocation_search(collocation)
+        return render_template('nltk.html', **locals())
+    return render_template('nltk.html')
+
 
 
 @app.route('/', methods=['get'])
