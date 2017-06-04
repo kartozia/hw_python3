@@ -31,7 +31,28 @@ body {
   padding-left: 53px;
 }
 .intro .intro-body .project {
-  font-size: 40px;
+  font-size: 50px;
 }
 .intro .intro-body .text {
-  font-size: 18px;
+  font-size: 24px;
+  }
+  
+    /* unvisited link */
+a:link {
+    color: white;
+}
+
+/* visited link */
+a:visited {
+    color: #0DB6A4;
+}
+
+/* mouse over link */
+a:hover {
+    color: #6495ED;
+}
+
+/* selected link */
+a:active {
+    color: #51D3C5;
+}
