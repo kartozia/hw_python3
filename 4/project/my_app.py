@@ -42,7 +42,7 @@ def verb_analisys(text):
                         verb['переходных'] +=1                       
                     elif i == 'нп':
                         verb['непереходных'] +=1 
-                verb['доля глаголов в тексте'] = round(((verb[pos]/words)*100),2)
+                verb['доля глаголов в тексте'] = round(((verb['кол-во глаголов в тексте']/words)*100),2)
     return verb, lem_freq, chart
                
 
@@ -86,7 +86,7 @@ def get_info(group1, group2):
 
 def exact_search(word):
     sentence = []
-    file = open('corpus.txt', 'r', encoding="utf-8")
+    file = open('/home/kartozia/mysite/corpus.txt', 'r', encoding="utf-8")
     corpus = file.readlines()
     if len(word) > 0:
         for line in corpus:
@@ -104,7 +104,7 @@ def exact_search(word):
 def search(word):
     sentence = []
     stemmer = SnowballStemmer("russian")
-    file = open('corpus.txt', 'r', encoding="utf-8")
+    file = open('/home/kartozia/mysite/corpus.txt', 'r', encoding="utf-8")
     corpus = file.readlines()
     if len(word) > 0:
         word_stem = stemmer.stem(word)
@@ -121,7 +121,7 @@ def search(word):
 def collocation_search(word):
     bigram = []
     stemmer = SnowballStemmer("russian")
-    file = open('collocations.txt', 'r', encoding="utf-8")
+    file = open('/home/kartozia/mysite/collocations.txt', 'r', encoding="utf-8")
     corpus = file.readlines()
     if len(word) > 0:
         word_stem = stemmer.stem(word)
