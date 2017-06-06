@@ -32,17 +32,17 @@ def verb_analisys(text):
                 lem_freq = OrderedDict(sorted(Counter(lemma).items(), key=lambda t: t[1], reverse=True))
 ##                for i in freq:
 ##                    lem_freq.append(i)
-                verb[pos] += 1
+                verb['кол-во глаголов в тексте'] += 1
                 for i in gram:
                     if i == 'несов':
-                        verb['impf'] += 1                      
+                        verb['несовершенного вида'] += 1                      
                     elif i == 'сов':
-                        verb['perf'] += 1                
+                        verb['совершенного вида'] += 1                
                     elif i == 'пе':
-                        verb['tr'] +=1                       
+                        verb['переходных'] +=1                       
                     elif i == 'нп':
-                        verb['intr'] +=1 
-                verb['part'] = round(((verb[pos]/words)*100),2)
+                        verb['непереходных'] +=1 
+                verb['доля глаголов в тексте'] = round(((verb[pos]/words)*100),2)
     return verb, lem_freq, chart
                
 

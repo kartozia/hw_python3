@@ -115,31 +115,35 @@
   							{% if af %}	
 			<h3>Результат поиска:</h3>
 			<p class="info"> 
+			<ul class="demo">
 			 {% for element in af %} 
-				{{ element }}
+				<li>{{ element }}</li>
 				{% endfor %} <br />
-			
+			</ul>
 			</p>
 			{% endif %}
 			
 			{% if ex %}	
 			<h3>Результат поиска:</h3>
 			<p class="info"> 
+			<ul class="demo">
 			 {% for element in ex %} 
-				{{ element }}
+				<li>{{ element }}</li>
 				{% endfor %} <br />
-			
+			</ul>
 			</p>
 			{% endif %}
 			
 			{% if clctn %}	
 			<h3>Результат поиска:</h3>
 			<p class="info"> 
+			<ul class="demo">
 			{% for element in clctn %} 
-				{{ element }}
+				<li>{{ element }}</li>
 				{% endfor %} <br />
 			</p>
 			{% endif %}
+			</ul>
 							</div>
 					</div>
 				</div>

@@ -109,20 +109,22 @@
 						<div id="chart_div"></div>	
 						<h3>Глаголы:</h3>
 						<p class="info"> 
+						<ul class="demo">
 							 {% for element, num in data.items() %} 
-								{{ element }}, {{ num }}
+								<li>{{ element }}: {{ num }}</li>
 								{% endfor %} <br />
-							
+						</ul>	
 						</p>
 						{% endif %}
 						
 						{% if lemma %}
 						<h3>Частотные леммы:</h3>
 						<p class="info"> 
+						<ul class="demo">
 							{% for element, num in lemma.items() %} 
-								{{ element }}, {{num}}
+								<li>{{ element }}: {{num}}</li>
 								{% endfor %} <br />
-							
+						</ul>	
 						</p>
 						{% endif %}
 						</div>
